@@ -10,13 +10,13 @@ for (( i = 0; i < $a; i++ )); do
 	C=$(shuf -i 1-99999999 -n 1)
 	echo "https://hanime.tv/browse/random?r="$A$B$C
 	/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --crash-dumps-dir=/tmp --disable-gpu --headless --dump-dom "https://hanime.tv/browse/random?r="$A$B$C |grep -o '"/[^"]*"'|grep -v 'tags'> ~/html.txt
-	sed 's/\"//g' html.txt>list.txt
+	sed 's/\"//g' html.txt|grep videos>list.txt
 	filename=list.txt
 	declare -a myArray
 	myArray=(`cat "$filename"`)
 	rm html.txt
-	U=$myArray[$(shuf -i 27-49 -n 1)]
-	echo "("$(($i+1))"):"
+	U=$myArray[$(shuf -i 1-${#myArray[@]} -n 1)]
+	echo "("$i")."
 	echo "https://hanime.tv"$U
 	open "https://hanime.tv"$U
 	rm list.txt
